@@ -1,6 +1,7 @@
 package com.heetch.countrypicker;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,21 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
     private boolean showDialingCode;
     public OnItemClickListener onItemClickListener;
     private List<Country> countryListFiltered;
+    private Typeface font;
 
     public CountryListAdapter(Context context, List<Country> countries, boolean showDialingCode,
                               OnItemClickListener onItemClickListener) {
         mContext = context;
+        this.countries = (ArrayList<Country>) countries;
+        countryListFiltered = countries;
+        this.showDialingCode = showDialingCode;
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public CountryListAdapter(Context context, List<Country> countries, boolean showDialingCode,
+                              OnItemClickListener onItemClickListener, Typeface font) {
+        mContext = context;
+        this.font = font;
         this.countries = (ArrayList<Country>) countries;
         countryListFiltered = countries;
         this.showDialingCode = showDialingCode;
@@ -78,6 +90,8 @@ public class CountryListAdapter extends RecyclerView.Adapter<CountryListAdapter.
             super(itemView);
             icon = itemView.findViewById(R.id.icon);
             name = itemView.findViewById(R.id.name);
+            name.setTypeface(font);
+
             itemView.setOnClickListener(this);
         }
 

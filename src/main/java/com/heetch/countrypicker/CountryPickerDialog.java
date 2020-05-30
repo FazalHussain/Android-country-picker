@@ -1,6 +1,7 @@
 package com.heetch.countrypicker;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Window;
 
@@ -26,15 +27,20 @@ public class CountryPickerDialog extends AppCompatDialog {
     private RecyclerView recyclerView;
     private String headingCountryCode;
     private boolean showDialingCode;
+    private Typeface font;
     private CountryListAdapter adapter;
     private SearchView search_et;
 
     public CountryPickerDialog(Context context, CountryPickerCallbacks callbacks) {
-        this(context, callbacks, null, true);
+        this(context, callbacks, null, true, null);
+    }
+
+    public CountryPickerDialog(Context context, CountryPickerCallbacks callbacks, Typeface countryNameFont) {
+        this(context, callbacks, null, true, countryNameFont);
     }
 
     public CountryPickerDialog(Context context, CountryPickerCallbacks callbacks, @Nullable String headingCountryCode) {
-        this(context, callbacks, headingCountryCode, true);
+        this(context, callbacks, headingCountryCode, true, null);
     }
 
     /**
@@ -46,9 +52,10 @@ public class CountryPickerDialog extends AppCompatDialog {
      * @param headingCountryCode
      */
     public CountryPickerDialog(Context context, CountryPickerCallbacks callbacks,
-                               @Nullable String headingCountryCode, boolean showDialingCode) {
+                               @Nullable String headingCountryCode, boolean showDialingCode, Typeface font) {
         super(context);
         this.callbacks = callbacks;
+        this.font = font;
         this.headingCountryCode = headingCountryCode;
         this.showDialingCode = showDialingCode;
         countries = Utils.parseCountries(context, Utils.getCountriesJSON(this.getContext()));
@@ -98,7 +105,7 @@ public class CountryPickerDialog extends AppCompatDialog {
                 callbacks.onCountrySelected(country, Utils.getMipmapResId(getContext(),
                         country.getIsoCode().toLowerCase(Locale.ENGLISH) + "_flag"));
             }
-        });
+        }, font);
         recyclerView.setAdapter(adapter);
 
 
